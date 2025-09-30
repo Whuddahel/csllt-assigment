@@ -9,15 +9,15 @@ All code, with the exception of *runasm.sh*, is in the x86 Assembly Language, de
 
 To assemble and run for Linux, ensure that the .asm files are present in the working directory, then enter the following commands into the terminal:
 
-nasm -f elf main.asm
-ld -m elf_i386 main.o -o main
-./main
+*nasm -f elf main.asm*
+*ld -m elf_i386 main.o -o main*
+*./main*
 
 Alternatively, the included shell script *runasm.sh* simplifies this. To use it, ensure it is in the working directory and enter the command:
 
-./runasm.sh main
+*./runasm.sh main*
 
 OR
 
-./runasm.sh main.asm
+*./runasm.sh main.asm*
 
