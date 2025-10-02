@@ -1,6 +1,6 @@
 ;------------------------------------------------------------------------------------------------------------------------------
-; void strprint(String message)
-; This function expects 1 argument: String* in EAX
+; void strprint(String* message)
+; This function expects 1 argument: String in EAX
 ; The string is printed to STDOUT (terminal interface)
 
 strprint:
@@ -26,7 +26,7 @@ strprint:
 
 ;------------------------------------------------------------------------------------------------------------------------------
 ; void strprintln(String message)
-; This function expects 1 argument: String* in EAX
+; This function expects 1 argument: String in EAX
 ; The string is printed to STDOUT (terminal interface) with a trailing LF char
 
 strprintln:

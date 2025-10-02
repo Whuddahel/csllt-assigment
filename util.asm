@@ -1,7 +1,7 @@
 ;------------------------------------------------------------------------------------------------------------------------------
-; int strlen(String message)
-; This function takes 1 argument: String* in EAX
-; The return value - length of the string, excluding the null pointer is left in EAX
+; int strlen(String* message)
+; This function takes 1 argument: String in EAX
+; The return value - length of the string, excluding the null indicator is left in EAX
 
 strlen:
     push    ebx                 ; Preserve original EBX value
@@ -20,8 +20,8 @@ strlen:
     ret
 
 ;------------------------------------------------------------------------------------------------------------------------------
-; int atoi(String number)
-; This function takes 1 argument: String* in EAX
+; int atoi(String* number)
+; This function takes 1 argument: String in EAX
 ; The return value is the integer representation of the string in EAX
 
 atoi:
