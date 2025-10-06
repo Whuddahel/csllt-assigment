@@ -9,7 +9,7 @@ strlen:
 
 .nextchar:
     cmp     byte[eax], 0        ; Check whether the pointed byte (char) is a null terminator
-    jz      .finished           
+    jz      .return         
     inc     eax                 ; EAX now points to the next byte (char)
     jmp     .nextchar
 
@@ -75,7 +75,7 @@ atoi:
 ; Takes no arguments, is responsible for proper program exit
 
 exit:
-    xor     ebx, ebx            ; Clears EBX (program status code) register
     mov     eax, 1              ; Kernel OPCODE for SYS_EXIT
+    xor     ebx, ebx            ; Clears EBX (program status code) register
     int     80h                 ; Invocation
     ret                         ; Actually redudant, but just there because OCD

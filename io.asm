@@ -1,28 +1,51 @@
+
 ;------------------------------------------------------------------------------------------------------------------------------
-; void strprint(String* message)
+; void input(String input)
+; This function technically accepts no arguments. User enters a string via STDIN
+; This function returns the number of bytes read in EAX, and the string entered in input_buffer
+input:
+	push	edx
+	push	ecx
+	push	ebx
+
+.accept_user_input:
+	mov		edx, 255			; buffer size
+	mov		ecx, input_buffer
+	mov		ebx, 0				; STDIN
+	mov		eax, 3				; SYS_READ kernel opcode
+	int 	80h
+
+.return:
+	pop		ebx
+	pop		ecx
+	pop		edx
+	ret
+
+;------------------------------------------------------------------------------------------------------------------------------
+; void strprint(String message)
 ; This function expects 1 argument: String in EAX
 ; The string is printed to STDOUT (terminal interface)
 
 strprint:
-    push    edx
-    push    ecx
-    push    ebx
-    push    eax
+	push    edx
+	push    ecx
+	push    ebx
+	push    eax
 
 .print:
-    call    strlen              ; EAX now contains strlen
-    mov     edx, eax            ; String length expected in EDX
-    pop     eax                 
-    mov     ecx, eax            ; String* expected in ECX
-    mov     ebx, 1              ; FD for STDOUT is 1
-    mov     eax, 4
-    int     80h
+	call    strlen              ; EAX now contains strlen
+	mov     edx, eax            ; String length expected in EDX
+	pop     eax                 
+	mov     ecx, eax            ; String* expected in ECX
+	mov     ebx, 1              ; FD for STDOUT is 1
+	mov     eax, 4
+	int     80h
 
 .return:
-    pop     ebx
-    pop     ecx
-    pop     edx
-    ret
+	pop     ebx
+	pop     ecx
+	pop     edx
+	ret
 
 ;------------------------------------------------------------------------------------------------------------------------------
 ; void strprintln(String message)
@@ -34,12 +57,12 @@ strprintln:
 
 	push	eax			       
 	mov	    eax, 0Ah		    ; 0Ah is the Line Feed char ASCII code
-					            ; EAX contains 0000000Ah
+								; EAX contains 0000000Ah
 
 	push	eax			        ; Put the LF char on the stack
-					            ; Stack top-down now is 0Ah, 00h, 00h, 00h
+								; Stack top-down now is 0Ah, 00h, 00h, 00h
 
-    mov 	eax, esp		    ; ESP points to the top of the stack (0Ah)
+	mov 	eax, esp		    ; ESP points to the top of the stack (0Ah)
 	call 	strprint
 
 .return:
@@ -96,7 +119,7 @@ intprintln:
 	call	intprint
 
 	push	eax			       
-     
+	
 	mov	    eax, 0Ah
 	push	eax                 ; strprint takes a String*, not a String
 	mov	    eax, esp
@@ -106,4 +129,4 @@ intprintln:
 	pop	    eax			        ; Balance stack and restore registers
 	pop	    eax
 	ret
-		        
+				
