@@ -8,7 +8,7 @@ input:
 	push	ecx
 	push	ebx
 
-.accept_user_input:
+.read:
 	mov		edx, 255			; buffer size
 	mov		ecx, input_buffer
 	mov		ebx, 0				; STDIN
@@ -72,7 +72,7 @@ strprintln:
 
 ;------------------------------------------------------------------------------------------------------------------------------
 ; void intprint(int number)
-; Expects 1 argument: Integer representation of a number in EAX
+; Expects 1 argument: Integer representation of a number in EAX (conv not done automatically)
 ; Prints to STDOUT()
 
 intprint:

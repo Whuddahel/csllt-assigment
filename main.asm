@@ -1,5 +1,6 @@
 %include "util.asm"
 %include "io.asm"
+%include "validation.asm"
 
 
 SECTION .data
@@ -28,7 +29,7 @@ actions_guest           db  "Chose from one of the options below: ", 0Ah
                         db  "2. Login", 0Ah
                         db  "3. Exit", 0h
 
-msg_invalid_choice      db  "Enter in an appropriate choice", 0h          
+
 
 
 
@@ -46,5 +47,6 @@ _start:
     mov     eax, welcome_banner      
     call    strprintln
     call    input
+    call    check_choice
 
     call    exit 
