@@ -12,10 +12,24 @@ input:
 	mov		edx, 255			; buffer size
 	mov		ecx, input_buffer
 	mov		ebx, 0				; STDIN
-	mov		eax, 3				; SYS_READ kernel opcode
+	mov		eax, 3				; SYS_READ kernel opcode, returns bytes read in EAX
 	int 	80h
 
+	mov		edx, eax
+	mov		ecx, input_buffer	; point back to start of buffer
+	add		ecx, eax
+	dec		ecx					; pointer to last character
+
+	cmp		byte [ecx], 0Ah		; check if terminated with newline instead
+	jne		.no_newline
+	mov		byte [ecx], 0
+	dec		edx
+	jmp		.return
+
+.no_newline: 					; simply null-terminate then
+	mov		byte[ecx+1], 0
 .return:
+	mov		eax, edx
 	pop		ebx
 	pop		ecx
 	pop		edx

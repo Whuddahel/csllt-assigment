@@ -1,5 +1,0 @@
-alice,password123,user,active
-bob,securepass,admin,active
-charlie,letmein,user,blocked
-diana,qwerty,manager,active
-eric,hunter2,user,active

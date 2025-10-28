@@ -1,4 +1,31 @@
 ;------------------------------------------------------------------------------------------------------------------------------
+; void strcpy(char* dest_addr, char* src_addr) - I mean technically they ain't strings but just memory addresses
+; Arguments: dest_addr in EDI, src_addr in ESI. Apparently these are the default for Strings so I'll use these instead of EAX, EBX
+; This function copies a null-terminated string from ESI to EDI
+; Returns: dest_addr in EAX
+strcpy:
+	push	esi
+	push	edi
+	push	ebx
+
+	mov		eax, edi			; return destination address
+
+.copy_loop:
+	mov		bl, [esi]
+	mov		[edi], bl
+	
+	inc		esi
+	inc		edi
+
+	cmp		bl, 0
+	jne		.copy_loop
+
+.return:
+	pop		ebx
+	pop		edi
+	pop		esi
+	ret
+;------------------------------------------------------------------------------------------------------------------------------
 ; int strlen(String* message)
 ; This function takes 1 argument: String in EAX
 ; The return value - length of the string, excluding the null indicator is left in EAX
@@ -18,6 +45,43 @@ strlen:
     
     pop     ebx                		; Restore original EBX value
     ret
+
+;------------------------------------------------------------------------------------------------------------------------------
+; int strcmp()
+; 2 arguments: 1st String in EAX, 2nd String in EBX
+; Return value: EAX = 0 if strings are same, EAX = 1 if different
+strcmp:
+	push	esi
+	push	edi
+
+	mov		esi, eax
+	mov		edi, ebx
+
+.compare_loop:
+	mov		al,	[esi]				; get char
+	mov		bl,	[edi]		
+
+	cmp		al, bl
+	jne		.different				; not equal
+
+	cmp		al, 0					; end of string
+	je		.same		
+
+	inc		esi						; get next char
+	inc		edi
+	jmp		.compare_loop			
+
+.same:
+	mov		eax, 0
+	jmp		.return
+
+.different:
+	mov		eax, 1
+
+.return:
+	pop		edi
+	pop		esi
+	ret
 
 ;------------------------------------------------------------------------------------------------------------------------------
 ; int atoi(String* number)

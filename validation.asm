@@ -4,7 +4,7 @@ msg_invalid_choice      db  "Enter in an appropriate choice", 0h
 ;------------------------------------------------------------------------------------------------------------------------------
 ; boolean check_choice(int user_choice)
 ; This function is used to check whether the user's choice is within the range of options provided.
-; User input is 
+; User input is expected in EAX. EAX will contain an error message if invalid.
 check_choice:
     mov     eax, input_buffer
     call    atoi
