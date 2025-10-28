@@ -3,8 +3,6 @@
 SECTION .data
 ; filename        db  "account_details.txt", 0h   
 ; Already declared in login.asm
-newline     db  0Ah
-comma   db  ","
 ;------------------------------------------------------------------------------------------------------------------------------
 ; int find_user_line(String username)
 ; Arguments: Username in EAX
@@ -88,10 +86,13 @@ find_user_offset:
 
 .return:
     mov     ebx, [fd_storage] 
+    push    eax                             ; want to return -1 if no matches
     mov     eax, 6                          ; SYS_CLOSE
     int     80h 
 
     mov     dword [fd_storage], 0           ; the FD is useless after SYS_CLOSE but just to be sure
+
+    pop     eax
 
     pop     edi
     pop     esi
@@ -153,6 +154,8 @@ tokenize:
 
 .end_of_line:
     mov     byte [token_buffer], 0
+    mov     eax, token_buffer
+    call    strprintln
     mov     eax, token_buffer
 
 .return:

@@ -114,17 +114,22 @@ register:
     mov     eax, error_username_exists
     call    strprintln
 
-    mov     byte [username], 0              ; clear username if failed checks
     jmp     .return
-    
+
 .contains_comma:
     mov     eax, error_comma
     call    strprintln
 
-    mov     byte [username], 0              ; clear username if failed checks
     jmp     .return
 
 .return:
+    mov     byte [line_buffer], 0
+    mov     byte [temp_buffer], 0
+    mov     byte [username], 0
+
+    pop     edi
+    pop     esi
+    pop     ebx
     ret
 
 ;------------------------------------------------------------------------------------------------------------------------------

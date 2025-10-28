@@ -18,10 +18,19 @@ welcome_banner          db  "***************************************************
                         db  "***********************************************************************************",0Ah, 0h
                
 
-menu_guest              db  "Chose from one of the options below: ", 0Ah
+menu_guest              db  "[GUEST MENU] Chose from one of the options below: ", 0Ah
                         db  "1. Register", 0Ah
                         db  "2. Login", 0Ah
                         db  "3. Exit", 0h
+
+menu_user               db  "[USER MENU] Chose from one of the options below: ", 0Ah
+                        db  "1. View Balance", 0Ah
+                        db  "2. Deposit", 0Ah
+                        db  "3. Withdraw", 0Ah
+                        db  "4. Transfer", 0Ah
+                        db  "5. Logout", 0Ah
+                        db  "6. Exit", 0
+
 ;---------------------------------------------------------------------------------------------------------------------------------
 print_welcome_banner:
     mov     eax, welcome_banner      
@@ -30,5 +39,10 @@ print_welcome_banner:
 ;---------------------------------------------------------------------------------------------------------------------------------
 print_guest_menu:
     mov     eax, menu_guest     
+    call    strprintln
+    ret
+;---------------------------------------------------------------------------------------------------------------------------------
+print_user_menu:
+    mov     eax, menu_user    
     call    strprintln
     ret
