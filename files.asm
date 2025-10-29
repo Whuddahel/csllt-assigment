@@ -4,7 +4,7 @@ SECTION .data
 ; filename        db  "account_details.txt", 0h   
 ; Already declared in login.asm
 ;------------------------------------------------------------------------------------------------------------------------------
-; int find_user_line(String username)
+; int find_user_offset(String username)
 ; Arguments: Username in EAX
 ; Return value in EAX: -1 if no matches, byte offset to beginning of matching instance if so
 find_user_offset:
@@ -24,6 +24,7 @@ find_user_offset:
     jl      .open_failed  
 
     mov     [fd_storage], eax
+    
     xor     edi, edi                        ; Will contain file offset
     mov     esi, line_buffer
 
@@ -72,7 +73,7 @@ find_user_offset:
 
     mov     eax, line_buffer
     call    strlen
-    sub     edi, eax
+    sub     edi, eax                        ; file offset - strlen = file offset of start of line
     mov     eax, edi
     jmp     .return
 
@@ -116,7 +117,7 @@ tokenize:
     mov     esi, line_buffer       ; source
     mov     edi, token_buffer       ; destination
     mov     ecx, eax               ; target field index
-    xor     eax, eax               ; byte register counter (AL will hold char)
+    xor     eax, eax               ; to hold curr char
     xor     ebx, ebx               ; current field index
 
 .skip_until_field:

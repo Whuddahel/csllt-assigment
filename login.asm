@@ -7,6 +7,7 @@ register_notice    db  "Registering a new account...", 0h
 msg_enter_uname db  "Enter in your username: ", 0h
 msg_enter_pass  db  "Enter in your password: ", 0h
 login_success   db  "Login Successful. Logging in as ", 0h
+register_success   db  "Registration Successful. Please log in to access the account.", 0h
 login_failed   db  "Invalid credentials", 0h
 
 error_comma db  "Username or password cannot contain a comma.", 0h
@@ -75,7 +76,6 @@ register:
 
 .all_good:
     mov     esi, username
-    mov     byte [line_buffer], 0           ; just in case
     mov     edi, line_buffer
     call    strcpy
 
@@ -108,6 +108,8 @@ register:
 
     mov     esi, line_buffer
     call    append_accounts
+    mov     eax, register_success
+    call    strprintln
     jmp     .return
 
 .username_exists:
@@ -123,9 +125,12 @@ register:
     jmp     .return
 
 .return:
-    mov     byte [line_buffer], 0
-    mov     byte [temp_buffer], 0
-    mov     byte [username], 0
+; THIS CLEARS UNAME
+    mov     edi, username    ; destination address
+    mov     ecx, 255          ; size of username buffer 
+    xor     eax, eax         ; zero to store
+    rep     stosb            ; fill [edi]..[edi+ecx-1] with zeros
+
 
     pop     edi
     pop     esi
@@ -183,7 +188,11 @@ login:
     mov     eax, login_failed
     call    strprintln
 
-    mov     byte [username], 0
+    mov     edi, username    ; destination address
+    mov     ecx, 255          ; size of username buffer
+    xor     eax, eax         ; zero to store
+    rep     stosb            ; fill [edi]..[edi+ecx-1] with zeros
+
     jmp    .return
 
 .login_success:
@@ -193,10 +202,6 @@ login:
     call    strprintln
 
 .return:
-    mov     byte [temp_buffer], 0
-    mov     byte [token_buffer], 0
-    mov     byte [input_buffer], 0
-
     pop     edi
     pop     esi
     pop     ebx

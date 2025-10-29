@@ -1,5 +1,5 @@
 Asian Guy,ActualPassword,5000
 GuyFieri,1234,250
 Curry Noodles,abcd,1
-test,test,200
-a,a,445983
+NewTestAccount,TestPass,9999
+a,a,5678
